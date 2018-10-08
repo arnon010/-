@@ -1,5 +1,6 @@
 package info.androidhive.firebase;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private TextView txtDetails;
     private EditText inputName, inputEmail;
-    private Button btnSave;
+    private Button btnSave, btnIncome, btnOutcome;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
 
@@ -80,6 +81,23 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     updateUser(name, email);
                 }
+            }
+        });
+
+        btnIncome = findViewById(R.id.btnIncome);
+        btnOutcome = findViewById(R.id.btnOutcome);
+        btnIncome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, InComeActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnOutcome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, OutComeActivity.class);
+                startActivity(intent);
             }
         });
 

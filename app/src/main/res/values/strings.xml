@@ -10,6 +10,11 @@
     <string name="username">Username</string>
     <string name="forgot_password">ลืมรหัสผ่าน</string>
     <string name="register">สมัครสมาชิก</string>
+    <string name="surname">Surname</string>
+    <string name="save">Save</string>
+    <string name="income">รายรับ</string>
+    <string name="amount">จำนวนเงิน</string>
+    <string name="baht">บาท</string>
 
 
 </resources>

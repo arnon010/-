@@ -20,7 +20,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private TextView txtDetails;
-    private EditText inputName, inputEmail;
+    private EditText inputName, inputEmail, inputSurname, inputUsername, inputPassword;
     private Button btnSave;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
@@ -47,8 +47,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         txtDetails = findViewById(R.id.txt_user);
         inputName = findViewById(R.id.name);
+        inputSurname = findViewById(R.id.surname);
         inputEmail = findViewById(R.id.email);
+        inputUsername = findViewById(R.id.username);
+        inputPassword = findViewById(R.id.password);
         btnSave = findViewById(R.id.btn_save);
+
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
