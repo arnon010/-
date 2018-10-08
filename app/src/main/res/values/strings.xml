@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">หมูออมสิน</string>
+    <string name="hint_name">Full Name</string>
+    <string name="hint_email">Email</string>
+    <string name="action_save">Save</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="login">login</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="forgot_password">ลืมรหัสผ่าน</string>
+    <string name="register">สมัครสมาชิก</string>
+
+
+</resources>
