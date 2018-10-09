@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
         // get reference to 'users' node
-        mFirebaseDatabase = mFirebaseInstance.getReference("users");
+        mFirebaseDatabase = mFirebaseInstance.getReference("register");
 
 //        // store app title to 'app_title' node
 //        mFirebaseInstance.getReference("app_title").setValue(getResources().getString(R.string.app_name));
@@ -86,18 +87,26 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String name = inputName.getText().toString();
+                String surname = inputSurname.getText().toString();
                 String email = inputEmail.getText().toString();
+                String username = inputUsername.getText().toString();
+                String password = inputPassword.getText().toString();
 
                 // Check for already existed userId
                 if (TextUtils.isEmpty(userId)) {
-                    createUser(name, email);
+                    createUser(name, surname, email, username, password);
+                    Toast.makeText(RegisterActivity.this, "สมัครสมาชิกเรียบร้อย", Toast.LENGTH_SHORT).show();
                 } else {
-                    updateUser(name, email);
+//                    updateUser(name, email);
+                    Toast.makeText(RegisterActivity.this, "ไม่สมามารถสมัครสมาชิกได้", Toast.LENGTH_SHORT).show();
                 }
+
+
+
             }
         });
 
-        toggleButton();
+//        toggleButton();
     }
 
     // Changing button text
@@ -112,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Creating new user node under 'users'
      */
-    private void createUser(String name, String email) {
+    private void createUser(String name, String surname, String email, String username, String password) {
         // TODO
         // In real apps this userId should be fetched
         // by implementing firebase auth
@@ -120,9 +129,9 @@ public class RegisterActivity extends AppCompatActivity {
             userId = mFirebaseDatabase.push().getKey();
         }
 
-        User user = new User(name, email);
+        Register register = new Register(name, surname, email, username, password);
 
-        mFirebaseDatabase.child(userId).setValue(user);
+        mFirebaseDatabase.child(userId).setValue(register);
 
         addUserChangeListener();
     }
@@ -135,24 +144,27 @@ public class RegisterActivity extends AppCompatActivity {
         mFirebaseDatabase.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
+                Register register = dataSnapshot.getValue(Register.class);
 
                 // Check for null
-                if (user == null) {
+                if (register == null) {
                     Log.e(TAG, "User data is null!");
                     return;
                 }
 
-                Log.e(TAG, "User data is changed!" + user.name + ", " + user.email);
+                Log.e(TAG, "User data is changed!" + register.name + ", " + register.email);
 
                 // Display newly updated name and email
-                txtDetails.setText(user.name + ", " + user.email);
+//                txtDetails.setText(register.name + ", " + register.surname + ", " + register.email + ", " + register.username + ", " + register.password);
 
                 // clear edit text
                 inputEmail.setText("");
                 inputName.setText("");
+                inputSurname.setText("");
+                inputUsername.setText("");
+                inputPassword.setText("");
 
-                toggleButton();
+//                toggleButton();
             }
 
             @Override
