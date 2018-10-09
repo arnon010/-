@@ -84,7 +84,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
-
                 Log.d("username", edtUsername.getText().toString().trim());
                 Log.d("password", edtPassword.getText().toString().trim());
                 break;
