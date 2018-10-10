@@ -1,5 +1,6 @@
 package info.androidhive.firebase;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -91,11 +92,18 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = inputEmail.getText().toString();
                 String username = inputUsername.getText().toString();
                 String password = inputPassword.getText().toString();
+                String detail_income = "";
+                String detail_outcome = "";
+                String value_income = "";
+                String value_outcome = "";
 
                 // Check for already existed userId
                 if (TextUtils.isEmpty(userId)) {
-                    createUser(name, surname, email, username, password);
+                    createUser(name, surname, email, username, password, detail_income, detail_outcome, value_income, value_outcome);
                     Toast.makeText(RegisterActivity.this, "สมัครสมาชิกเรียบร้อย", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+
                 } else {
 //                    updateUser(name, email);
                     Toast.makeText(RegisterActivity.this, "ไม่สมามารถสมัครสมาชิกได้", Toast.LENGTH_SHORT).show();
@@ -121,7 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Creating new user node under 'users'
      */
-    private void createUser(String name, String surname, String email, String username, String password) {
+    private void createUser(String name, String surname, String email, String username, String password, String detail_income, String detail_outcome, String value_income, String value_outcome) {
         // TODO
         // In real apps this userId should be fetched
         // by implementing firebase auth
@@ -129,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
             userId = mFirebaseDatabase.push().getKey();
         }
 
-        Register register = new Register(name, surname, email, username, password);
+        Register register = new Register(name, surname, email, username, password, detail_income, detail_outcome, value_income, value_outcome);
 
         mFirebaseDatabase.child(userId).setValue(register);
 

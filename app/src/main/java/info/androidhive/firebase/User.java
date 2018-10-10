@@ -2,10 +2,6 @@ package info.androidhive.firebase;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
-/**
- * Created by Ravi Tamada on 07/10/16.
- * www.androidhive.info
- */
 
 @IgnoreExtraProperties
 public class User {

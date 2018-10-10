@@ -4,8 +4,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class InComeActivity extends AppCompatActivity {
+
+    EditText edtIncome, edtAmountIn;
+    Button btnSaveIncome;
 
     Toolbar toolbar;
 
@@ -25,6 +30,11 @@ public class InComeActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        edtIncome = findViewById(R.id.edtIncome);
+        edtAmountIn = findViewById(R.id.edtAmountIn);
+        btnSaveIncome = findViewById(R.id.btnSaveIncome);
+
 
 
     }

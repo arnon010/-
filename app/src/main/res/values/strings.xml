@@ -17,6 +17,10 @@
     <string name="baht">บาท</string>
     <string name="email_reset">กรุณากรอก Email เพื่อทำการ Reset รหัสผ่าน</string>
     <string name="reset">Reset</string>
+    <string name="outcome">รายจ่าย</string>
+    <string name="profile">ข้อมูลส่วนตัว</string>
+    <string name="save_income">บันทึกรายรับ</string>
+    <string name="save_outcome">บันทึกรายจ่าย</string>
 
 
 </resources>

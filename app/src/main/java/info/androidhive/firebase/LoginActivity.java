@@ -55,8 +55,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btnLogin:
                 // Profile
 
-                Query query = databaseReference.child("register").orderByChild("username").equalTo(edtUsername.getText().toString().trim());
-                query.addValueEventListener(new ValueEventListener() {
+                Query query = databaseReference.orderByChild("username").equalTo(edtUsername.getText().toString().trim());
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
@@ -64,10 +64,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             for (DataSnapshot user : dataSnapshot.getChildren()) {
                                 // do something with the individual "issues"
-                                Register register = user.getValue(Register.class);
+                                Register usersBean = user.getValue(Register.class);
 
-                                if (register.password.equals(edtPassword.getText().toString().trim())) {
+                                if (usersBean.password.equals(edtPassword.getText().toString().trim())) {
                                     Intent intent = new Intent(context, MainActivity.class);
+                                    intent.putExtra("SENDER_KEY", "MyActivty");
+                                    intent.putExtra("username", edtUsername.getText().toString().trim());
                                     startActivity(intent);
                                 } else {
                                     Toast.makeText(context, "Password is wrong", Toast.LENGTH_LONG).show();
@@ -80,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
+                        Toast.makeText(context, "Fail To Connect To database", Toast.LENGTH_LONG).show();
                     }
                 });
 
