@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,12 +21,17 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+
     Button btnLogin;
     TextView txtForgotPass, txtRegister;
     EditText edtUsername, edtPassword;
     final FirebaseDatabase mFirebaseInstance = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference;
+
     Context context = this;
+//    String userId;
+//    private static final String TAG = LoginActivity.class.getSimpleName();
+//    DatabaseReference mFirebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +50,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         txtRegister.setOnClickListener(this);
 
 
-        databaseReference = mFirebaseInstance.getReference("register");
+        databaseReference = mFirebaseInstance.getReference("users");
+
+
+//        mFirebaseDatabase = mFirebaseInstance.getReference("users");
 
 
     }
@@ -88,6 +97,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 Log.d("username", edtUsername.getText().toString().trim());
                 Log.d("password", edtPassword.getText().toString().trim());
+
+//                String username = edtUsername.getText().toString();
+//                String password = edtPassword.getText().toString();
+//
+//                // Check for already existed userId
+//                if (TextUtils.isEmpty(userId)) {
+//                    createUser(username, password);
+//
+//
+//                } else {
+////                    updateUser(name, email);
+//
+//                }
+
+
                 break;
             case R.id.txtForgotPass:
                 // Forgot Password
@@ -104,4 +128,58 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         }
     }
+
+
+//    private void createUser(String username, String password) {
+//        // TODO
+//        // In real apps this userId should be fetched
+//        // by implementing firebase auth
+//        if (TextUtils.isEmpty(userId)) {
+//            userId = mFirebaseDatabase.push().getKey();
+//        }
+//
+//        User user = new User(username, password);
+//
+//        mFirebaseDatabase.child(userId).setValue(user);
+//
+//        addUserChangeListener();
+//    }
+//
+//    /**
+//     * User data change listener
+//     */
+//    private void addUserChangeListener() {
+//        // User data change listener
+//        mFirebaseDatabase.child(userId).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                User user = dataSnapshot.getValue(User.class);
+//
+//                // Check for null
+//                if (user == null) {
+//                    Log.e(TAG, "User data is null!");
+//                    return;
+//                }
+//
+//                Log.e(TAG, "User data is changed!" + user.username + ", " + user.password);
+//
+//
+//
+//                // clear edit text
+//                edtUsername.setText("");
+//                edtPassword.setText("");
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                // Failed to read value
+//                Log.e(TAG, "Failed to read user", error.toException());
+//            }
+//        });
+//    }
+//
+//
+
+
 }

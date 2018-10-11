@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        android:background="@color/colorPrimary"/>
+        android:background="#37c1f0"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -90,8 +90,11 @@
 
         <Button
             android:text="@string/save_outcome"
-            android:textStyle="bold"
             android:id="@+id/btnSaveOutcome"
+            android:background="@drawable/button_custom"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

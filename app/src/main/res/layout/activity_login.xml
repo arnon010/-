@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#37c1f0"
     tools:context=".LoginActivity">
 
     <LinearLayout
@@ -21,7 +22,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
+                android:src="@drawable/ic_mooaomsin"
                 android:layout_gravity="center"/>
         </LinearLayout>
 
@@ -32,40 +33,71 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/edtUsername"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/username"
-                    android:maxLines="1" />
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_person_white_24dp"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:textStyle="bold"
+                        android:id="@+id/edtUsername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/username"
+                        android:maxLines="1" />
 
-            <android.support.design.widget.TextInputLayout
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/edtPassword"
-                    android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/password"
-                    android:maxLines="1"/>
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_lock_white_24dp"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:textStyle="bold"
+                        android:id="@+id/edtPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password"
+                        android:maxLines="1"/>
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+
+
 
             <Button
                 android:id="@+id/btnLogin"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/button_custom"
                 android:text="@string/login"
+                android:textSize="20sp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
             <LinearLayout

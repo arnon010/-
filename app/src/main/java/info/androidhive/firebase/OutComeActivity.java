@@ -22,6 +22,8 @@ public class OutComeActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar4);
         toolbar.setTitle(getResources().getString(R.string.outcome));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_arrow_left_white_36dp));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

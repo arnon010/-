@@ -13,24 +13,52 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        android:background="@color/colorPrimary"/>
+        android:background="#37c1f0"/>
 
     <TextView
+        android:padding="10dp"
         android:id="@+id/txtUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_horizontal_margin"
         android:textStyle="bold"
-        android:textSize="20dp" />
+        android:text="Data"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
+        <TextView
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/income"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:id="@+id/txtBalance"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="@string/baht"/>
+            <TextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/baht"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
 
 
 
@@ -39,20 +67,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+        android:padding="10dp"
+        android:gravity="center">
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
             android:text="@string/income"
-            android:id="@+id/btnIncome"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:id="@+id/btnIncome"
+            android:background="@drawable/ic_mooaomsin_income" />
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:text="@string/income"
+            android:visibility="invisible"
+            android:background="@drawable/ic_mooaomsin_income" />
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:text="@string/outcome"
-            android:id="@+id/btnOutcome"/>
+            android:id="@+id/btnOutcome"
+            android:background="@drawable/ic_mooaomsin_outcome"/>
     </LinearLayout>
+
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#37c1f0"
+            android:text="@string/profile_balance"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+
 
 
 

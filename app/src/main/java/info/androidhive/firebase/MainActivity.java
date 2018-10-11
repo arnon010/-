@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private TextView txtDetails;
-    private Button btnIncome, btnOutcome;
+    private ImageButton btnIncome, btnOutcome;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
 
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         toolbar = findViewById(R.id.toolbar5);
         toolbar.setTitle(getResources().getString(R.string.register));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_arrow_left_white_36dp));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
         // get reference to 'users' node
-        mFirebaseDatabase = mFirebaseInstance.getReference("register");
+        mFirebaseDatabase = mFirebaseInstance.getReference("user");
 
 //        // store app title to 'app_title' node
 //        mFirebaseInstance.getReference("app_title").setValue(getResources().getString(R.string.app_name));
@@ -124,10 +127,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 for (DataSnapshot user : dataSnapshot.getChildren()) {
 
 
-                    String strName = user.child("name").getValue().toString();
-                    String strSurname = user.child("surname").getValue().toString();
+                    String strName = user.child("username").getValue().toString();
+                    String strSurname = user.child("password").getValue().toString();
 
-                    txtDetails.setText(strName + " " + strSurname);
+                    txtDetails.setText(strUsername + " " + strSurname);
 
                     Log.d("CheckData", strName + strSurname);
                 }

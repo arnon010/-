@@ -37,6 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.register));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_arrow_left_white_36dp ));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -114,17 +116,9 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-//        toggleButton();
     }
 
-    // Changing button text
-    private void toggleButton() {
-        if (TextUtils.isEmpty(userId)) {
-            btnSave.setText("Save");
-        } else {
-            btnSave.setText("Update");
-        }
-    }
+
 
     /**
      * Creating new user node under 'users'
@@ -162,8 +156,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 Log.e(TAG, "User data is changed!" + register.name + ", " + register.email);
 
-                // Display newly updated name and email
-//                txtDetails.setText(register.name + ", " + register.surname + ", " + register.email + ", " + register.username + ", " + register.password);
+
 
                 // clear edit text
                 inputEmail.setText("");
@@ -172,7 +165,6 @@ public class RegisterActivity extends AppCompatActivity {
                 inputUsername.setText("");
                 inputPassword.setText("");
 
-//                toggleButton();
             }
 
             @Override
@@ -181,15 +173,6 @@ public class RegisterActivity extends AppCompatActivity {
                 Log.e(TAG, "Failed to read user", error.toException());
             }
         });
-    }
-
-    private void updateUser(String name, String email) {
-        // updating the user via child nodes
-        if (!TextUtils.isEmpty(name))
-            mFirebaseDatabase.child(userId).child("name").setValue(name);
-
-        if (!TextUtils.isEmpty(email))
-            mFirebaseDatabase.child(userId).child("email").setValue(email);
     }
 
     @Override

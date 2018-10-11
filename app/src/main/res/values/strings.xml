@@ -3,24 +3,25 @@
     <string name="hint_name">Full Name</string>
     <string name="hint_email">Email</string>
     <string name="action_save">Save</string>
-    <string name="name">Name</string>
-    <string name="email">Email</string>
-    <string name="login">login</string>
-    <string name="password">Password</string>
-    <string name="username">Username</string>
+    <string name="name">ชื่อ</string>
+    <string name="email">อีเมล</string>
+    <string name="login">เข้าสู่ระบบ</string>
+    <string name="password">รหัสผ่าน</string>
+    <string name="username">ชื่อผู้ใช้</string>
     <string name="forgot_password">ลืมรหัสผ่าน</string>
     <string name="register">สมัครสมาชิก</string>
-    <string name="surname">Surname</string>
-    <string name="save">Save</string>
+    <string name="surname">นามสกุล</string>
+    <string name="save">บันทึก</string>
     <string name="income">รายรับ</string>
     <string name="amount">จำนวนเงิน</string>
     <string name="baht">บาท</string>
-    <string name="email_reset">กรุณากรอก Email เพื่อทำการ Reset รหัสผ่าน</string>
-    <string name="reset">Reset</string>
+    <string name="email_reset">กรุณากรอกอีเมลเพื่อทำการรีเซตรหัสผ่าน</string>
+    <string name="reset">ขอรีเซตรหัสผ่าน</string>
     <string name="outcome">รายจ่าย</string>
     <string name="profile">ข้อมูลส่วนตัว</string>
     <string name="save_income">บันทึกรายรับ</string>
     <string name="save_outcome">บันทึกรายจ่าย</string>
+    <string name="profile_balance">ข้อมูลรายรับ - รายจ่าย</string>
 
 
 </resources>
