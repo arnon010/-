@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         txtRegister.setOnClickListener(this);
 
 
-        databaseReference = mFirebaseInstance.getReference("users");
+        databaseReference = mFirebaseInstance.getReference("register");
 
 
 //        mFirebaseDatabase = mFirebaseInstance.getReference("users");
@@ -76,8 +76,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Register usersBean = user.getValue(Register.class);
 
                                 if (usersBean.password.equals(edtPassword.getText().toString().trim())) {
-                                    Intent intent = new Intent(context, MainActivity.class);
-                                    intent.putExtra("SENDER_KEY", "MyActivty");
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.putExtra("username", edtUsername.getText().toString().trim());
                                     startActivity(intent);
                                 } else {

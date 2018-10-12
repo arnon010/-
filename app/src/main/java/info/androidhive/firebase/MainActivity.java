@@ -2,17 +2,16 @@ package info.androidhive.firebase;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,12 +21,12 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private TextView txtDetails;
+    TextView txtDetails;
     private ImageButton btnIncome, btnOutcome;
-    private DatabaseReference mFirebaseDatabase;
-    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference databaseReference;
+    private FirebaseDatabase firebaseDatabase;
 
-    private String strUsername;
+    String strUsername;
 
     Toolbar toolbar;
 
@@ -51,20 +50,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        txtDetails = findViewById(R.id.txt_user);
+        txtDetails = findViewById(R.id.txtUser);
         btnIncome = findViewById(R.id.btnIncome);
         btnOutcome = findViewById(R.id.btnOutcome);
 
-        mFirebaseInstance = FirebaseDatabase.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
         // get reference to 'users' node
-        mFirebaseDatabase = mFirebaseInstance.getReference("user");
+        databaseReference = firebaseDatabase.getReference("register");
 
 //        // store app title to 'app_title' node
-//        mFirebaseInstance.getReference("app_title").setValue(getResources().getString(R.string.app_name));
+//        firebaseDatabase.getReference("app_title").setValue(getResources().getString(R.string.app_name));
 //
 //        // app_title change listener
-//        mFirebaseInstance.getReference("app_title").addValueEventListener(new ValueEventListener() {
+//        firebaseDatabase.getReference("app_title").addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) {
 //                Log.e(TAG, "App title updated");
@@ -85,61 +84,102 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnIncome.setOnClickListener(this);
         btnOutcome.setOnClickListener(this);
 
+
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                strUsername = null;
+            } else {
+                strUsername = extras.getString("username");
+            }
+        } else {
+            strUsername = (String) savedInstanceState.getSerializable("username");
+        }
+
         addUserChangeListener();
 
     }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //DETERMINE WHO STARTED THIS ACTIVITY
-        final String sender=this.getIntent().getExtras().getString("SENDER_KEY");
-
-        //IF ITS THE FRAGMENT THEN RECEIVE DATA
-        if(sender != null)
-        {
-            this.receiveData();
-
-        }
-    }
-
-    private void receiveData() {
-        //RECEIVE DATA VIA INTENT
-        Intent i = getIntent();
-        strUsername = i.getStringExtra("username");
-    }
-
 
     /**
      * User data change listener
      */
     private void addUserChangeListener() {
         // User data change listener
-        mFirebaseDatabase.child("username").equalTo(strUsername).addValueEventListener(new ValueEventListener() {
+        databaseReference.orderByChild("username").equalTo(strUsername).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                // Check for null
+                if (dataSnapshot.exists()) {
+                    Register newPost = dataSnapshot.getValue(Register.class);
+                    System.out.println("MooUsername: " + newPost.username);
+                    System.out.println("MooPassword: " + newPost.password);
+                    System.out.println("MooName: " + newPost.name);
+                    System.out.println("MooSurname: " + newPost.surname);
+                    System.out.println("MooEmail: " + newPost.email);
+                    System.out.println("MooDetailIncome: " + newPost.detail_income);
+                    System.out.println("MooDetailOutcome: " + newPost.detail_outcome);
+                    System.out.println("MooIncome: " + newPost.value_income);
+                    System.out.println("MooOutcome: " + newPost.value_outcome);
+                    System.out.println("Moo "+ dataSnapshot.getKey() + " was " + newPost.username);
+
+                    System.out.println("Moo " + dataSnapshot.getKey() + " score is " + dataSnapshot.getValue());
 
 
 
-                for (DataSnapshot user : dataSnapshot.getChildren()) {
 
 
-                    String strName = user.child("username").getValue().toString();
-                    String strSurname = user.child("password").getValue().toString();
 
-                    txtDetails.setText(strUsername + " " + strSurname);
-
-                    Log.d("CheckData", strName + strSurname);
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.e(TAG, "Failed to read user", error.toException());
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+        // User data change listener
+        databaseReference.orderByChild("username").equalTo(strUsername).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                Register newPost = dataSnapshot.getValue(Register.class);
+                System.out.println("MooUsername: " + newPost.username);
+                System.out.println("MooPassword: " + newPost.password);
+                System.out.println("MooName: " + newPost.name);
+                System.out.println("MooSurname: " + newPost.surname);
+                System.out.println("MooEmail: " + newPost.email);
+                System.out.println("MooDetailIncome: " + newPost.detail_income);
+                System.out.println("MooDetailOutcome: " + newPost.detail_outcome);
+                System.out.println("MooIncome: " + newPost.value_income);
+                System.out.println("MooOutcome: " + newPost.value_outcome);
+                System.out.println("MooPrevious Post ID:: " + s);
+                System.out.println("Moo "+ dataSnapshot.getKey() + " was " + newPost.username);
+
+                System.out.println("Moo " + dataSnapshot.getKey() + " score is " + dataSnapshot.getValue());
+
+
+                txtDetails.setText(newPost.getName() + " " + newPost.getSurname());
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
