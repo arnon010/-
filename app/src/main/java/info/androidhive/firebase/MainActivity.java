@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         // get reference to 'users' node
-        databaseReference = firebaseDatabase.getReference("register");
+
 
 //        // store app title to 'app_title' node
 //        firebaseDatabase.getReference("app_title").setValue(getResources().getString(R.string.app_name));
@@ -98,6 +100,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         addUserChangeListener();
 
+
+        makeListView();
+
+    }
+
+    private void makeListView() {
+        String[] list1 = { "Aerith Gainsborough", "Barret Wallace", "Cait Sith"
+                , "Cid Highwind", "Cloud Strife", "RedXIII", "Sephiroth"
+                , "Tifa Lockhart", "Vincent Valentine", "Yuffie Kisaragi"
+                , "ZackFair" };
+
+        String[] list2 = { "Aerith Gainsborough", "Barret Wallace", "Cait Sith"
+                , "Cid Highwind", "Cloud Strife", "RedXIII", "Sephiroth"
+                , "Tifa Lockhart", "Vincent Valentine", "Yuffie Kisaragi"
+                , "ZackFair" };
+
+        CustomAdapter adapter = new CustomAdapter(getApplicationContext(), list1, list2);
+
+        ListView listView = findViewById(R.id.listView1);
+        listView.setAdapter(adapter);
+
     }
 
     /**
@@ -105,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void addUserChangeListener() {
         // User data change listener
+        databaseReference = firebaseDatabase.getReference("register");
         databaseReference.orderByChild("username").equalTo(strUsername).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -160,6 +184,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 txtDetails.setText(newPost.getName() + " " + newPost.getSurname());
 
+
+
             }
 
             @Override
@@ -190,10 +216,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btnIncome:
                 Intent intent = new Intent(MainActivity.this, InComeActivity.class);
+                intent.putExtra("username", strUsername);
                 startActivity(intent);
                 break;
             case R.id.btnOutcome:
                 Intent intent2 = new Intent(MainActivity.this, OutComeActivity.class);
+                intent2.putExtra("username", strUsername);
                 startActivity(intent2);
                 break;
             default:

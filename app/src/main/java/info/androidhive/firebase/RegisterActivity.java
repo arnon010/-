@@ -108,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 } else {
 //                    updateUser(name, email);
-                    Toast.makeText(RegisterActivity.this, "ไม่สมามารถสมัครสมาชิกได้", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "ไม่สามารถสมัครสมาชิกได้", Toast.LENGTH_SHORT).show();
                 }
 
 

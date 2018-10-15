@@ -49,7 +49,7 @@
             </android.support.design.widget.TextInputLayout>
             <ImageView
                 android:layout_gravity="bottom"
-                android:id="@+id/imgCalendar"
+                android:id="@+id/imgCalendarOutcome"
                 android:src="@drawable/ic_date_range_light_blue_a200_24dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
