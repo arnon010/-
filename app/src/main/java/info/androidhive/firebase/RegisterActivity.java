@@ -102,9 +102,9 @@ public class RegisterActivity extends AppCompatActivity {
                 // Check for already existed userId
                 if (TextUtils.isEmpty(userId)) {
                     createUser(name, surname, email, username, password, detail_income, detail_outcome, value_income, value_outcome);
-                    Toast.makeText(RegisterActivity.this, "สมัครสมาชิกเรียบร้อย", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    Toast.makeText(RegisterActivity.this, "สมัครสมาชิกเรียบร้อย", Toast.LENGTH_SHORT).show();
 
                 } else {
 //                    updateUser(name, email);

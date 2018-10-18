@@ -23,7 +23,7 @@
             android:id="@+id/txtOutcome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/income"
+            android:text="@string/outcome"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -42,7 +42,7 @@
                     android:id="@+id/edtOutcome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/income"
+                    android:hint="@string/outcome"
                     android:inputType="text"
                     android:maxLines="1" />
 

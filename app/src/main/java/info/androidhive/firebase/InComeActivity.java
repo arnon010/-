@@ -105,7 +105,7 @@ public class InComeActivity extends AppCompatActivity {
     /**
      * Creating new user node under 'users'
      */
-    private void createUser(String detail_outcome, String value_outcome, String username) {
+    private void createUser(String detail_income, String value_income, String username) {
         // TODO
         // In real apps this userId should be fetched
         // by implementing firebase auth
@@ -113,9 +113,9 @@ public class InComeActivity extends AppCompatActivity {
             userId = mFirebaseDatabase.push().getKey();
         }
 
-        Outcome outcome = new Outcome(detail_outcome, value_outcome, username);
+        Income income = new Income(detail_income, value_income, username);
 
-        mFirebaseDatabase.child(userId).setValue(outcome);
+        mFirebaseDatabase.child(userId).setValue(income);
 
         addUserChangeListener();
     }
