@@ -42,8 +42,8 @@ public class CustomAdapter extends BaseAdapter {
         if(convertView == null)
             convertView = mInflater.inflate(R.layout.listview_row, parent, false);
 
-        TextView txtDetail = convertView.findViewById(R.id.txtDetail);
-        txtDetail.setText(strDetail[position]);
+//        TextView txtDetail = convertView.findViewById(R.id.txtDetail);
+//        txtDetail.setText(strDetail[position]);
 
         TextView txtValue = convertView.findViewById(R.id.txtValue);
         txtValue.setText(strValue[position]);

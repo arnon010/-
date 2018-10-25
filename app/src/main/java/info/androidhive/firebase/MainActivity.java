@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,7 +17,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,12 +30,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DatabaseReference databaseReference, incomeDatabaseReference, outDatabaseReference;
     private FirebaseDatabase firebaseDatabase;
 
+    ListView listView1 , listView2;
+    ArrayList<String> incomeArrayList , outcomeArrayList;
+    ArrayAdapter<String> incomeArrayAdapter,outcomeArrayAdapter;
 
     TextView txtIncomeDetail, txtIncomeValue, txtOutcomeDetail, txtOutcomeValue;
 
     String strUsername;
 
     Toolbar toolbar;
+    Income income;
+    Outcome outcome;
 
 
     @Override
@@ -109,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //        makeListView();
 
+
+
     }
 
     private void makeListView() {
@@ -133,9 +144,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * User data change listener
      */
     private void addUserChangeListener() {
+        databaseReference = firebaseDatabase.getReference();
+        Query query = databaseReference.child("register");
+
         // User data change listener
-        databaseReference = firebaseDatabase.getReference("register");
-        databaseReference.orderByChild("username").equalTo(strUsername).addValueEventListener(new ValueEventListener() {
+
+        query.orderByChild("username").equalTo(strUsername).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -164,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         // User data change listener
-        databaseReference.orderByChild("username").equalTo(strUsername).addChildEventListener(new ChildEventListener() {
+        query.orderByChild("username").equalTo(strUsername).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
@@ -213,8 +227,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // User data change listener
-        incomeDatabaseReference = firebaseDatabase.getReference("income");
-        incomeDatabaseReference.orderByChild("username").equalTo(strUsername).addValueEventListener(new ValueEventListener() {
+        income = new Income();
+        listView1 = findViewById(R.id.listView1);
+        incomeDatabaseReference = firebaseDatabase.getReference();
+        Query incomeQuery = incomeDatabaseReference.child("income");
+        incomeArrayList = new ArrayList<>();
+        incomeArrayAdapter = new ArrayAdapter<String>(this, R.layout.listview_row, R.id.txtValue, incomeArrayList);
+        incomeQuery.orderByChild("username").equalTo(strUsername).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -225,6 +244,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     System.out.println("InName: " + income.value_income);
 
                 }
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    income = ds.getValue(Income.class);
+                    incomeArrayList.add(income.getDetail_income() + " : " + income.getValue_income());
+
+                }
+//                TextView textView = findViewById(R.id.txtValue);
+//                textView.setTextColor(getColor(R.color.green));
+                listView1.setAdapter(incomeArrayAdapter);
             }
 
             @Override
@@ -233,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         // User data change listener
-        incomeDatabaseReference.orderByChild("username").equalTo(strUsername).addChildEventListener(new ChildEventListener() {
+        incomeQuery.orderByChild("username").equalTo(strUsername).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
@@ -285,8 +313,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // User data change listener
-        outDatabaseReference = firebaseDatabase.getReference("outcome");
-        outDatabaseReference.orderByChild("username").equalTo(strUsername).addValueEventListener(new ValueEventListener() {
+        outcome = new Outcome();
+        listView2 = findViewById(R.id.listView2);
+        outDatabaseReference = firebaseDatabase.getReference();
+        Query outcomeQuery = outDatabaseReference.child("outcome");
+        outcomeArrayList = new ArrayList<>();
+        outcomeArrayAdapter = new ArrayAdapter<String>(this, R.layout.listview_row2, R.id.txtValue2, outcomeArrayList);
+        outcomeQuery.orderByChild("username").equalTo(strUsername).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -295,6 +328,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     System.out.println("OutUsername: " + outcome.username);
                     System.out.println("OutPassword: " + outcome.detail_outcome);
                     System.out.println("OutName: " + outcome.value_outcome);
+
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        outcome = ds.getValue(Outcome.class);
+                        outcomeArrayList.add(outcome.getDetail_outcome() + " : " + outcome.getValue_outcome());
+
+                    }
+                    listView2.setAdapter(outcomeArrayAdapter);
 
 
                 }
@@ -306,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         // User data change listener
-        outDatabaseReference.orderByChild("username").equalTo(strUsername).limitToFirst(10).addChildEventListener(new ChildEventListener() {
+        outcomeQuery.orderByChild("username").equalTo(strUsername).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
@@ -315,6 +355,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 System.out.println("OutUsername: " + outcome.username);
                 System.out.println("OutPassword: " + outcome.detail_outcome);
                 System.out.println("OutName: " + outcome.detail_outcome);
+
+
 
                 txtOutcomeDetail.setText(outcome.getDetail_outcome());
                 txtOutcomeValue.setText(outcome.getValue_outcome());
