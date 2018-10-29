@@ -1,4 +1,4 @@
-package info.androidhive.firebase;
+package info.project.firebase;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

@@ -1,10 +1,9 @@
-package info.androidhive.firebase;
+package info.project.firebase;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -79,6 +78,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.putExtra("username", edtUsername.getText().toString().trim());
                                     startActivity(intent);
+                                    finish();
                                 } else {
                                     Toast.makeText(context, "Password is wrong", Toast.LENGTH_LONG).show();
                                 }

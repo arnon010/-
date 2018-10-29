@@ -1,4 +1,4 @@
-package info.androidhive.firebase;
+package info.project.firebase;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -94,16 +94,13 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = inputEmail.getText().toString();
                 String username = inputUsername.getText().toString();
                 String password = inputPassword.getText().toString();
-                String detail_income = "";
-                String detail_outcome = "";
-                String value_income = "";
-                String value_outcome = "";
 
                 // Check for already existed userId
                 if (TextUtils.isEmpty(userId)) {
-                    createUser(name, surname, email, username, password, detail_income, detail_outcome, value_income, value_outcome);
+                    createUser(name, surname, email, username, password);
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    finish();
                     Toast.makeText(RegisterActivity.this, "สมัครสมาชิกเรียบร้อย", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -123,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Creating new user node under 'users'
      */
-    private void createUser(String name, String surname, String email, String username, String password, String detail_income, String detail_outcome, String value_income, String value_outcome) {
+    private void createUser(String name, String surname, String email, String username, String password) {
         // TODO
         // In real apps this userId should be fetched
         // by implementing firebase auth
@@ -131,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
             userId = mFirebaseDatabase.push().getKey();
         }
 
-        Register register = new Register(name, surname, email, username, password, detail_income, detail_outcome, value_income, value_outcome);
+        Register register = new Register(name, surname, email, username, password);
 
         mFirebaseDatabase.child(userId).setValue(register);
 
@@ -178,6 +175,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        finish();
 
     }
 }

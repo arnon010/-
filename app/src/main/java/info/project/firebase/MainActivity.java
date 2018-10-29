@@ -1,4 +1,4 @@
-package info.androidhive.firebase;
+package info.project.firebase;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -20,12 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    TextView txtDetails;
+    TextView txtDetails, txtBalance;
     private ImageButton btnIncome, btnOutcome;
     private DatabaseReference databaseReference, incomeDatabaseReference, outDatabaseReference;
     private FirebaseDatabase firebaseDatabase;
@@ -34,19 +36,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<String> incomeArrayList , outcomeArrayList;
     ArrayAdapter<String> incomeArrayAdapter,outcomeArrayAdapter;
 
-    TextView txtIncomeDetail, txtIncomeValue, txtOutcomeDetail, txtOutcomeValue;
 
     String strUsername;
 
     Toolbar toolbar;
     Income income;
     Outcome outcome;
+    DecimalFormat formatter;
+    static int intIncome, intOutcome;
+    static Integer intResultIncome = 0;
+    static Integer intResultOutcome = 0;
+    static Integer intResult = 0;
+    static String strIncome, strOutcome;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        intResult = 0;
+        intResultIncome = 0;
+        intResultOutcome = 0;
 
         toolbar = findViewById(R.id.toolbar5);
         toolbar.setTitle(getResources().getString(R.string.register));
@@ -58,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
 
@@ -68,10 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        txtIncomeDetail = findViewById(R.id.txtIncomeDetail);
-        txtIncomeValue = findViewById(R.id.txtIncomeValue);
-        txtOutcomeDetail = findViewById(R.id.txtOutcomeDetail);
-        txtOutcomeValue = findViewById(R.id.txtOutcomeValue);
+        txtBalance = findViewById(R.id.txtBalance);
+
+        formatter = new DecimalFormat("#,###,###");
 
         // get reference to 'users' node
 
@@ -116,34 +127,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addUserChangeListener();
 
 
-//        makeListView();
-
-
 
     }
 
-    private void makeListView() {
-        String[] list1 = { "Aerith Gainsborough", "Barret Wallace", "Cait Sith"
-                , "Cid Highwind", "Cloud Strife", "RedXIII", "Sephiroth"
-                , "Tifa Lockhart", "Vincent Valentine", "Yuffie Kisaragi"
-                , "ZackFair" };
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        intResult = 0;
+        intResultIncome = 0;
+        intResultOutcome = 0;
 
-        String[] list2 = { "Aerith Gainsborough", "Barret Wallace", "Cait Sith"
-                , "Cid Highwind", "Cloud Strife", "RedXIII", "Sephiroth"
-                , "Tifa Lockhart", "Vincent Valentine", "Yuffie Kisaragi"
-                , "ZackFair" };
+    }
 
-        CustomAdapter adapter = new CustomAdapter(getApplicationContext(), list1, list2);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        intResult = 0;
+        intResultIncome = 0;
+        intResultOutcome = 0;
+    }
 
-        ListView listView = findViewById(R.id.listView1);
-        listView.setAdapter(adapter);
+    @Override
+    protected void onStop() {
+        super.onStop();
+        intResult = 0;
+        intResultIncome = 0;
+        intResultOutcome = 0;
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        intResult = 0;
+        intResultIncome = 0;
+        intResultOutcome = 0;
     }
 
     /**
      * User data change listener
      */
     private void addUserChangeListener() {
+
+        intResult = 0;
+        intResultIncome = 0;
+        intResultOutcome = 0;
+
         databaseReference = firebaseDatabase.getReference();
         Query query = databaseReference.child("register");
 
@@ -160,10 +188,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     System.out.println("MooName: " + newPost.name);
                     System.out.println("MooSurname: " + newPost.surname);
                     System.out.println("MooEmail: " + newPost.email);
-                    System.out.println("MooDetailIncome: " + newPost.detail_income);
-                    System.out.println("MooDetailOutcome: " + newPost.detail_outcome);
-                    System.out.println("MooIncome: " + newPost.value_income);
-                    System.out.println("MooOutcome: " + newPost.value_outcome);
                     System.out.println("Moo "+ dataSnapshot.getKey() + " was " + newPost.username);
 
                     System.out.println("Moo " + dataSnapshot.getKey() + " score is " + dataSnapshot.getValue());
@@ -188,10 +212,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 System.out.println("MooName: " + newPost.name);
                 System.out.println("MooSurname: " + newPost.surname);
                 System.out.println("MooEmail: " + newPost.email);
-                System.out.println("MooDetailIncome: " + newPost.detail_income);
-                System.out.println("MooDetailOutcome: " + newPost.detail_outcome);
-                System.out.println("MooIncome: " + newPost.value_income);
-                System.out.println("MooOutcome: " + newPost.value_outcome);
                 System.out.println("MooPrevious Post ID:: " + s);
                 System.out.println("Moo "+ dataSnapshot.getKey() + " was " + newPost.username);
 
@@ -206,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                intResult = 0;
             }
 
             @Override
@@ -247,7 +267,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     income = ds.getValue(Income.class);
-                    incomeArrayList.add(income.getDetail_income() + " : " + income.getValue_income());
+                    intIncome = Integer.parseInt(income.getValue_income());
+                    intResultIncome = intResultIncome + intIncome;
+                    Log.d("ResultIncomeOnly", String.valueOf(intResultIncome));
+                    strIncome = formatter.format(intIncome);
+                    incomeArrayList.add(income.getDetail_income() + " : " + strIncome);
+
+
+                    intResult = intResultIncome - intResultOutcome;
+                    Log.d("ResultIn", String.valueOf(intResultIncome));
+                    Log.d("ResultOut", String.valueOf(intResultOutcome));
+
+                    txtBalance.setText(String.valueOf(formatter.format(intResult)));
 
                 }
 //                TextView textView = findViewById(R.id.txtValue);
@@ -272,27 +303,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-                txtIncomeDetail.setText(income.getDetail_income());
-                txtIncomeValue.setText(income.getValue_income());
-
-
-
-
-//                String[] list1 = { income.getDetail_income() };
-//
-//                String[] list2 = { income.getValue_income() };
-//
-//                CustomAdapter adapter = new CustomAdapter(getApplicationContext(), list1, list2);
-//
-//                ListView listView = findViewById(R.id.listView1);
-//                listView.setAdapter(adapter);
 
 
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                intResult = 0;
             }
 
             @Override
@@ -331,7 +348,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         outcome = ds.getValue(Outcome.class);
-                        outcomeArrayList.add(outcome.getDetail_outcome() + " : " + outcome.getValue_outcome());
+                        intOutcome = Integer.parseInt(outcome.getValue_outcome());
+                        intResultOutcome = intResultOutcome + intOutcome;
+                        Log.d("ResultOutcomeOnly", String.valueOf(intResultOutcome));
+                        strOutcome = formatter.format(intOutcome);
+                        outcomeArrayList.add(outcome.getDetail_outcome() + " : " + strOutcome);
+
+
+
+                        intResult = intResultIncome - intResultOutcome;
+                        Log.d("ResultIn", String.valueOf(intResultIncome));
+                        Log.d("ResultOut", String.valueOf(intResultOutcome));
+
+                        txtBalance.setText(String.valueOf(formatter.format(intResult)));
 
                     }
                     listView2.setAdapter(outcomeArrayAdapter);
@@ -357,15 +386,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 System.out.println("OutName: " + outcome.detail_outcome);
 
 
-
-                txtOutcomeDetail.setText(outcome.getDetail_outcome());
-                txtOutcomeValue.setText(outcome.getValue_outcome());
-
-
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                intResult = 0;
 
             }
 
@@ -386,6 +411,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }); //tbOutcome
 
 
+
+
+
+
     }
 
 
@@ -396,20 +425,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(MainActivity.this, InComeActivity.class);
                 intent.putExtra("username", strUsername);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.btnOutcome:
                 Intent intent2 = new Intent(MainActivity.this, OutComeActivity.class);
                 intent2.putExtra("username", strUsername);
                 startActivity(intent2);
+                finish();
                 break;
             default:
                 break;
         }
     }
 
+
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
+        finish();
 
     }
 }

@@ -1,4 +1,4 @@
-package info.androidhive.firebase;
+package info.project.firebase;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -92,9 +91,21 @@ public class OutComeActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String detail_outcome = edtOutcome.getText().toString();
-                String value_outcome = "-" + edtAmountOut.getText().toString();
+                String value_outcome = edtAmountOut.getText().toString();
                 String username = strUsername;
 
+
+                if (detail_outcome.equals("")) {
+                    edtOutcome.setError("กรุณาใส่ข้อมูลรายจ่าย");
+                    Toast.makeText(OutComeActivity.this, "กรุณาใส่ข้อมูลรายจ่าย", Toast.LENGTH_SHORT).show();
+                } else if (value_outcome.equals("")) {
+                    edtAmountOut.setError("กรุณาใส่จำนวนรายจ่าย");
+                    Toast.makeText(OutComeActivity.this, "กรุณาใส่จำนวนรายจ่าย", Toast.LENGTH_SHORT).show();
+                } else if (detail_outcome.equals("") && value_outcome.equals("")) {
+                    edtOutcome.setError("กรุณาใส่ข้อมูลให้ครบถ้วน");
+                    edtAmountOut.setError("กรุณาใส่ข้อมูลให้ครบถ้วน");
+                    Toast.makeText(OutComeActivity.this, "กรุณาใส่ข้อมูลให้ครบถ้วน", Toast.LENGTH_SHORT).show();
+                } else
 
                 // Check for already existed userId
                 if (TextUtils.isEmpty(userId)) {
@@ -103,6 +114,7 @@ public class OutComeActivity extends AppCompatActivity {
                     Intent intent = new Intent(OutComeActivity.this, MainActivity.class);
                     intent.putExtra("username", strUsername);
                     startActivity(intent);
+                    finish();
                     Toast.makeText(OutComeActivity.this, "เพิ่มข้อมูลรายจ่ายเรียบร้อย", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(OutComeActivity.this, "ไม่สามารถเพิ่มข้อมูลรายจ่ายได้", Toast.LENGTH_SHORT).show();
@@ -176,5 +188,6 @@ public class OutComeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        finish();
     }
 }

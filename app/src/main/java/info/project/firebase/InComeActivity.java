@@ -1,4 +1,4 @@
-package info.androidhive.firebase;
+package info.project.firebase;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -70,6 +70,16 @@ public class InComeActivity extends AppCompatActivity {
                 String username = strUsername;
 
 
+                if (detail_income.equals("")) {
+                    edtIncome.setError("กรุณาใส่ข้อมูลรายรับ");
+                } else if (value_income.equals("")) {
+                    edtAmountIn.setError("กรุณาใส่จำนวนรายรับ");
+                } else if (detail_income.equals("") && value_income.equals("")) {
+                    edtIncome.setError("กรุณาใส่ข้อมูลให้ครบถ้วน");
+                    edtAmountIn.setError("กรุณาใส่ข้อมูลให้ครบถ้วน");
+                } else
+
+
                 // Check for already existed userId
                 if (TextUtils.isEmpty(userId)) {
                     createUser(detail_income,value_income,username);
@@ -77,6 +87,7 @@ public class InComeActivity extends AppCompatActivity {
                     Intent intent = new Intent(InComeActivity.this, MainActivity.class);
                     intent.putExtra("username", strUsername);
                     startActivity(intent);
+                    finish();
                     Toast.makeText(InComeActivity.this, "เพิ่มข้อมูลรายรับเรียบร้อย", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(InComeActivity.this, "ไม่สามารถเพิ่มข้อมูลรายรับได้", Toast.LENGTH_SHORT).show();
@@ -158,6 +169,8 @@ public class InComeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
+        finish();
 
     }
 }

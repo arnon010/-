@@ -1,4 +1,4 @@
-package info.androidhive.firebase;
+package info.project.firebase;
 
 import android.content.Context;
 import android.view.LayoutInflater;

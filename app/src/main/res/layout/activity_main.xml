@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="info.androidhive.firebase.MainActivity">
+    tools:context="info.project.firebase.MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar5"
@@ -50,7 +50,7 @@
                 android:id="@+id/txtBalance"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="0.00"/>
+                android:text=""/>
             <TextView
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -108,14 +108,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
         <ListView
+            android:padding="10dp"
             android:id="@+id/listView1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/colorPrimary"/>
         <ListView
+            android:padding="10dp"
             android:id="@+id/listView2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -126,56 +131,5 @@
 
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:id="@+id/txtIncomeDetail"
-                android:textSize="16sp"
-                android:textColor="@android:color/holo_green_dark"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/txtIncomeValue"
-                android:textSize="16sp"
-                android:textColor="@android:color/holo_green_dark"/>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:id="@+id/txtOutcomeDetail"
-                android:textSize="16sp"
-                android:textColor="@android:color/holo_red_dark"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/txtOutcomeValue"
-                android:textSize="16sp"
-                android:textColor="@android:color/holo_red_dark"/>
-        </LinearLayout>
-
-    </LinearLayout>
 
 </LinearLayout>
