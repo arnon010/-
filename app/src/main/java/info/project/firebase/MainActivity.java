@@ -425,13 +425,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(MainActivity.this, InComeActivity.class);
                 intent.putExtra("username", strUsername);
                 startActivity(intent);
-                finish();
+//                finish();
                 break;
             case R.id.btnOutcome:
                 Intent intent2 = new Intent(MainActivity.this, OutComeActivity.class);
                 intent2.putExtra("username", strUsername);
                 startActivity(intent2);
-                finish();
+//                finish();
                 break;
             default:
                 break;

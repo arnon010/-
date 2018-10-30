@@ -2,6 +2,10 @@ package info.project.firebase;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,12 +24,15 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+    private static final String DEBUG_TAG = "NetworkStatusExample";
     Button btnLogin;
     TextView txtForgotPass, txtRegister;
     EditText edtUsername, edtPassword;
     final FirebaseDatabase mFirebaseInstance = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference;
+
+    boolean isWifiConn = false;
+    boolean isMobileConn = false;
 
     Context context = this;
 //    String userId;
@@ -63,39 +70,47 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btnLogin:
                 // Profile
 
-                Query query = databaseReference.orderByChild("username").equalTo(edtUsername.getText().toString().trim());
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            // dataSnapshot is the "issue" node with all children with id 0
+                checkConnectNetwork();
 
-                            for (DataSnapshot user : dataSnapshot.getChildren()) {
-                                // do something with the individual "issues"
-                                Register usersBean = user.getValue(Register.class);
+                if (isWifiConn == true || isMobileConn == true) {
+                    Query query = databaseReference.orderByChild("username").equalTo(edtUsername.getText().toString().trim());
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                // dataSnapshot is the "issue" node with all children with id 0
 
-                                if (usersBean.password.equals(edtPassword.getText().toString().trim())) {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    intent.putExtra("username", edtUsername.getText().toString().trim());
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    Toast.makeText(context, "Password is wrong", Toast.LENGTH_LONG).show();
+                                for (DataSnapshot user : dataSnapshot.getChildren()) {
+                                    // do something with the individual "issues"
+                                    Register usersBean = user.getValue(Register.class);
+
+                                    if (usersBean.password.equals(edtPassword.getText().toString().trim())) {
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        intent.putExtra("username", edtUsername.getText().toString().trim());
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(context, "Password is wrong", Toast.LENGTH_LONG).show();
+                                    }
                                 }
+                            } else {
+                                Toast.makeText(context, "User not found", Toast.LENGTH_LONG).show();
                             }
-                        } else {
-                            Toast.makeText(context, "User not found", Toast.LENGTH_LONG).show();
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(context, "Fail To Connect To database", Toast.LENGTH_LONG).show();
-                    }
-                });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(context, "Fail To Connect To database", Toast.LENGTH_LONG).show();
+                        }
+                    });
 
-                Log.d("username", edtUsername.getText().toString().trim());
-                Log.d("password", edtPassword.getText().toString().trim());
+                    Log.d("username", edtUsername.getText().toString().trim());
+                    Log.d("password", edtPassword.getText().toString().trim());
+
+                } else if (isWifiConn == false || isMobileConn == false) {
+                    Toast.makeText(context, "กรุณาเชื่อมต่ออินเตอร์เน็ต ก่อนใช้งาน", Toast.LENGTH_LONG).show();
+
+
 
 //                String username = edtUsername.getText().toString();
 //                String password = edtPassword.getText().toString();
@@ -109,6 +124,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 ////                    updateUser(name, email);
 //
 //                }
+                }
 
 
                 break;
@@ -126,6 +142,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
         }
+    }
+
+    private void checkConnectNetwork() {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            for (Network network : connMgr.getAllNetworks()) {
+                NetworkInfo networkInfo = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    networkInfo = connMgr.getNetworkInfo(network);
+
+                }
+                if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                    isWifiConn |= networkInfo.isConnected();
+                }
+                if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                    isMobileConn |= networkInfo.isConnected();
+                }
+            }
+        }
+
+        Log.d(DEBUG_TAG, "Wifi connected: " + isWifiConn);
+        Log.d(DEBUG_TAG, "Mobile connected: " + isMobileConn);
     }
 
 
@@ -179,6 +218,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //    }
 //
 //
+
 
 
 }

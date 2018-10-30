@@ -1,5 +1,6 @@
 package info.project.firebase;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,8 +9,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +20,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
 
 public class OutComeActivity extends AppCompatActivity {
 
@@ -34,6 +39,12 @@ public class OutComeActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseInstance;
 
     private String userId;
+    DatePickerDialog datePickerDialog;
+    int year;
+    int month;
+    int dayOfMonth;
+    Calendar calendar;
+    TextView txtDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +76,24 @@ public class OutComeActivity extends AppCompatActivity {
         edtAmountOut = findViewById(R.id.edtAmountOut);
         btnSaveOutcome = findViewById(R.id.btnSaveOutcome);
         imgCalendarOutcome = findViewById(R.id.imgCalendarOutcome);
+        txtDate = findViewById(R.id.txtDateOut);
+
         imgCalendarOutcome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                calendar = Calendar.getInstance();
+                year = calendar.get(Calendar.YEAR);
+                month = calendar.get(Calendar.MONTH);
+                dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                datePickerDialog = new DatePickerDialog(OutComeActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                txtDate.setText(day + "/" + (month + 1) + "/" + year);
+                            }
+                        }, year, month, dayOfMonth);
+                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                datePickerDialog.show();
             }
         });
 
@@ -97,14 +122,11 @@ public class OutComeActivity extends AppCompatActivity {
 
                 if (detail_outcome.equals("")) {
                     edtOutcome.setError("กรุณาใส่ข้อมูลรายจ่าย");
-                    Toast.makeText(OutComeActivity.this, "กรุณาใส่ข้อมูลรายจ่าย", Toast.LENGTH_SHORT).show();
                 } else if (value_outcome.equals("")) {
                     edtAmountOut.setError("กรุณาใส่จำนวนรายจ่าย");
-                    Toast.makeText(OutComeActivity.this, "กรุณาใส่จำนวนรายจ่าย", Toast.LENGTH_SHORT).show();
                 } else if (detail_outcome.equals("") && value_outcome.equals("")) {
                     edtOutcome.setError("กรุณาใส่ข้อมูลให้ครบถ้วน");
                     edtAmountOut.setError("กรุณาใส่ข้อมูลให้ครบถ้วน");
-                    Toast.makeText(OutComeActivity.this, "กรุณาใส่ข้อมูลให้ครบถ้วน", Toast.LENGTH_SHORT).show();
                 } else
 
                 // Check for already existed userId
