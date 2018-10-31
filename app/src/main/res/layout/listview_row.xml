@@ -31,13 +31,14 @@
         android:text=""/>
 
     <TextView
+        android:id="@+id/txtValue2"
         android:gravity="end"
         android:layout_gravity="end"
         android:textColor="@color/green"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/baht"
+        android:text=""
         android:textSize="16sp"
         android:textStyle="bold"/>
 

@@ -110,8 +110,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else if (isWifiConn == false || isMobileConn == false) {
                     Toast.makeText(context, "กรุณาเชื่อมต่ออินเตอร์เน็ต ก่อนใช้งาน", Toast.LENGTH_LONG).show();
 
-
-
 //                String username = edtUsername.getText().toString();
 //                String password = edtPassword.getText().toString();
 //

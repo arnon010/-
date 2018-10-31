@@ -23,6 +23,7 @@
     <string name="save_outcome">บันทึกรายจ่าย</string>
     <string name="profile_balance">ข้อมูลรายรับ - รายจ่าย</string>
     <string name="money_balance">รายได้คงเหลือ</string>
+    <string name="input_username">กรุณากรอกชื่อผู้ใช้</string>
 
 
 </resources>

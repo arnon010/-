@@ -1,14 +1,15 @@
 package info.project.firebase;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,8 +34,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseDatabase firebaseDatabase;
 
     ListView listView1 , listView2;
-    ArrayList<String> incomeArrayList , outcomeArrayList;
-    ArrayAdapter<String> incomeArrayAdapter,outcomeArrayAdapter;
+
+    ArrayList<Income> testIncomeArrayList = new ArrayList<Income>();
+    ArrayList<Outcome> testOutcomeArrayList = new ArrayList<Outcome>();
+    CustomAdapterIncome customAdapterIncome;
+    CustomAdapterOutcome customAdapterOutcome;
 
 
     String strUsername;
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static Integer intResultOutcome = 0;
     static Integer intResult = 0;
     static String strIncome, strOutcome;
+
 
 
 
@@ -251,8 +256,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listView1 = findViewById(R.id.listView1);
         incomeDatabaseReference = firebaseDatabase.getReference();
         Query incomeQuery = incomeDatabaseReference.child("income");
-        incomeArrayList = new ArrayList<>();
-        incomeArrayAdapter = new ArrayAdapter<String>(this, R.layout.listview_row, R.id.txtValue, incomeArrayList);
+
         incomeQuery.orderByChild("username").equalTo(strUsername).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -271,7 +275,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     intResultIncome = intResultIncome + intIncome;
                     Log.d("ResultIncomeOnly", String.valueOf(intResultIncome));
                     strIncome = formatter.format(intIncome);
-                    incomeArrayList.add(income.getDetail_income() + " : " + strIncome);
+
+                    income.setDetail_income(income.getDetail_income());
+                    income.setValue_income(strIncome + "   บาท");
+                    testIncomeArrayList.add(income);
+
 
 
                     intResult = intResultIncome - intResultOutcome;
@@ -281,9 +289,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     txtBalance.setText(String.valueOf(formatter.format(intResult)));
 
                 }
-//                TextView textView = findViewById(R.id.txtValue);
-//                textView.setTextColor(getColor(R.color.green));
-                listView1.setAdapter(incomeArrayAdapter);
+
+                customAdapterIncome = new CustomAdapterIncome(MainActivity.this, testIncomeArrayList);
+                listView1.setAdapter(customAdapterIncome);
+
+
+
             }
 
             @Override
@@ -334,8 +345,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listView2 = findViewById(R.id.listView2);
         outDatabaseReference = firebaseDatabase.getReference();
         Query outcomeQuery = outDatabaseReference.child("outcome");
-        outcomeArrayList = new ArrayList<>();
-        outcomeArrayAdapter = new ArrayAdapter<String>(this, R.layout.listview_row2, R.id.txtValue2, outcomeArrayList);
         outcomeQuery.orderByChild("username").equalTo(strUsername).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -352,7 +361,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         intResultOutcome = intResultOutcome + intOutcome;
                         Log.d("ResultOutcomeOnly", String.valueOf(intResultOutcome));
                         strOutcome = formatter.format(intOutcome);
-                        outcomeArrayList.add(outcome.getDetail_outcome() + " : " + strOutcome);
+
+
+                        outcome.setDetail_outcome(outcome.getDetail_outcome());
+                        outcome.setValue_outcome(strOutcome + "   บาท");
+                        testOutcomeArrayList.add(outcome);
 
 
 
@@ -363,7 +376,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         txtBalance.setText(String.valueOf(formatter.format(intResult)));
 
                     }
-                    listView2.setAdapter(outcomeArrayAdapter);
+
+
+                    customAdapterOutcome = new CustomAdapterOutcome(MainActivity.this, testOutcomeArrayList);
+                    listView2.setAdapter(customAdapterOutcome);
 
 
                 }
@@ -442,9 +458,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
 
-        finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
 
     }
 }
