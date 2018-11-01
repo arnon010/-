@@ -54,7 +54,7 @@ public class InComeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_in_come);
 
         toolbar = findViewById(R.id.toolbar3);
-        toolbar.setTitle(getResources().getString(R.string.forgot_password));
+        toolbar.setTitle(getResources().getString(R.string.income));
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_arrow_left_white_36dp));
         setSupportActionBar(toolbar);
